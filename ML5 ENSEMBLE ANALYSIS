@@ -1,0 +1,31 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+import category_encoders as ce
+from sklearn.metrics import accuracy_score, confusion_matrix
+
+data =pd.read_csv("car_evaluation.csv")
+data.head()
+
+col_names = ['buying', 'maint', 'doors', 'persons', 'lug_boot', 'safety', 'class']
+data.columns = col_names
+data.head()
+
+X =data.drop(['class'], axis=1)
+y= data['class']
+X_train, X_test,y_train,y_test = train_test_split(X,y,test_size=0.3, random_state=42)
+X_train.shape, X_test.shape
+
+encoder =  ce.OrdinalEncoder(cols=['buying', 'maint', 'doors', 'persons', 'lug_boot', 'safety', 'class'])
+X_train = encoder.fit_transform(X_train)
+X_test = encoder.transform(X_test)
+
+rfc = RandomForestClassifier(random_state=0)
+rfc.fit(X_train, y_train)
+
+y_pred = rfc.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+conf_matrix = confusion_matrix(y_test, y_pred)
+print("Accuracy:", accuracy, "\n")
+print("Confusion Matrix:\n", conf_matrix)
+
