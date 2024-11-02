@@ -1,0 +1,83 @@
+#Data Visualization using matplotlib
+#Problem Statement: Analyzing Air Quality Index (AQI) Trends in a City. The goal is to use the matplotlib library to
+# create visualizations that effectively represent the AQI trends and patterns for different pollutants in the city.
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+import seaborn as sns
+
+df = pd.read_csv(r"AQI Data Set.csv",  parse_dates=['Mounths'])
+df.head()
+
+df.columns
+column_names = ['Id', 'Months', 'PM10', 'SO2', 'NOx',
+       'PM25', 'NH3', 'O3','CO', ' Benzene', 'AQI']
+
+df.columns = column_names
+df.head()
+
+df.isna().sum()
+
+df.dropna(inplace = True)
+df.isna().sum()
+
+df.describe()
+
+plt.figure(figsize=(16, 6))
+plt.plot(df['Months'], df['AQI'])
+plt.xlabel('Date')
+plt.ylabel('AQI')
+plt.xticks(rotation=90)
+plt.title('Air Quality Index (AQI) Trend Over Time')
+plt.show()
+
+plt.figure(figsize=(12, 6))
+plt.plot(df['Months'], df['PM10'], color='red')
+plt.xlabel('Date')
+plt.xticks(rotation=75)
+plt.ylabel('PM10')
+
+plt.figure(figsize=(12, 6))
+plt.plot(df['Months'], df['PM25'], color='blue')
+plt.xlabel('Date')
+plt.xticks(rotation=75)
+plt.ylabel('PM2.5')
+
+plt.figure(figsize=(12, 6))
+plt.plot(df['Months'], df['CO'], label='CO', color='orange')
+plt.xlabel('Date')
+plt.xticks(rotation=75)
+plt.ylabel('Carbon Monoxide Levels')
+
+plt.figure(figsize=(12, 6))
+plt.plot(df['Months'], df['SO2'], label='SO2', color='violet')
+plt.xlabel('Date')
+plt.ylabel('SO2')
+plt.xticks(rotation=75)
+plt.show()
+
+plt.figure(figsize=(12, 6))
+plt.bar(df["Months"], df["AQI"], color="skyblue", label="AQI")
+plt.title("AQI Comparison Across Months")
+plt.xlabel("Months")
+plt.ylabel("AQI Value")
+plt.legend()
+plt.xticks(rotation=75)
+plt.show()
+
+plt.figure(figsize=(12, 6))
+df.boxplot(color='blue')
+plt.title("Distribution of AQI Values for Pollutants")
+plt.show()
+
+plt.figure(figsize=(12, 6))
+plt.scatter(df["AQI"], df["PM25"], c="red", label="PM2.5")
+plt.scatter(df["AQI"], df["SO2"], c="blue", label="SO2")
+plt.scatter(df["AQI"], df["O3"], c="green", label="O3")
+plt.title("Scatter Plot: AQI vs. Pollutant Levels")
+plt.xlabel("AQI Value")
+plt.ylabel("Pollutant Level")
+plt.legend()
+plt.grid(True)
+plt.show()
