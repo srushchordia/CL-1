@@ -1,0 +1,53 @@
+#Data Cleaning and Preparation Problem Statement: Analyzing Customer Churn in a Telecommunications Company The goal is to perform
+#data cleaning and preparation to gain insights into the factors that contribute to customer churn
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, LabelEncoder
+
+df = pd.read_csv(r"F:\BE\My Cl1\CL1\d3\telecom_churn.csv")
+df.head()
+df.info()
+df
+df.describe()
+df.shape
+df.isna().sum()
+df.duplicated().sum()
+df.columns
+df.drop(['','','','','',''])
+df.head()
+
+le = LabelEncoder()
+df['gender'] = le.fit_transform(df['gender'])
+df.head()
+
+average_salary = df.groupby('age')['estimated_salary'].mean()
+average_salary.head()
+
+plt.figure(figsize=(12,6))
+df.boxplot()
+plt.show()
+
+plt.figure(figsize=(12,6))
+plt.bar(df['age'],df['estimated_salary'],color='green')
+plt.title('Age salary Estimation')
+plt.xlabel('age')
+plt.ylabel('estimated_salary')
+plt.show()
+
+sns.pairplot(df)
+plt.show()
+
+df.dtypes
+
+X = df.drop(columns=['churn'])
+y = df['churn']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+sc = StandardScaler()
+X_train = sc.fit_transform(X_train)
+X_test = sc.transform(X_test)
+
+df.to_csv("Cleaned_Telecom_Customer_Churn.csv", index=False)
