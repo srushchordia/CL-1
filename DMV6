@@ -1,0 +1,47 @@
+#Data Aggregation
+#Problem Statement: Analyzing Sales Performance by Region in a Retail Company. The goal is to perform data aggregation
+#to analyze the sales performance by region and identify the top- performing regions.
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+df = pd.read_csv(r"retail_sales_data.csv")
+
+df["invoice_date"] = pd.to_datetime(df["invoice_date"], format="%d/%m/%Y")
+df.head()
+
+df.describe()
+df.info()
+df.isna.sum()
+
+df['Sales'] = df['quantity']*df['price']
+df.head()
+
+region_sales = df.groupby("shopping_mall")["Sales"].sum()
+region_sales.plot(kind="bar")
+
+plt.title("Sales Distribution by Region")
+plt.xlabel("Region")
+plt.ylabel("Total Sales Amount")
+plt.show()
+
+region_sales
+
+print(f"The top-performing region is: {region_sales.idxmax()}")
+
+region_category_sales = df.groupby(["shopping_mall", "category"])["Sales"].sum().unstack()
+
+region_category_sales.plot(kind="bar", stacked=True)
+plt.title("Sales Comparison by Region and Product Category")
+plt.xlabel("Region")
+plt.ylabel("Total Sales Amount")
+plt.legend(title="Product Category")
+plt.show()
+
+temp = df.groupby(["shopping_mall", "payment_method"])["Sales"].sum().unstack()
+plt.figure(figsize=(10,10))
+temp.plot(kind='bar', stacked=True)
+plt.xlabel("Shopping mall")
+plt.ylabel("Sales")
+
