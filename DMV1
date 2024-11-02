@@ -1,0 +1,49 @@
+#Data Loading, Storage and File Formats Problem Statement:
+# Analyzing Sales Data from Multiple. The goal is to load and analyze sales data from different file formats,
+# including CSV, Excel, and JSON, and perform data cleaning, transformation, and analysis on the dataset.
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+import os
+
+csv_data = pd.read_csv(r"F:\BE\My Cl1\CL1\d1\format1.csv")
+excel_data = pd.read_excel(r"F:\BE\My Cl1\CL1\d1\format2.xlsx")
+json_data = pd.read_json(r"F:\BE\My Cl1\CL1\d1\format3.json")
+csv_data.head(1)
+
+excel_data.head(1)
+json_data.head(1)
+
+df = pd.concat([csv_data, excel_data, json_data])
+df.sample(3)
+
+df.describe()
+df.info()
+df.dtypes
+#CLEANING
+df.isna().sum()
+print(df.duplicated().sum())
+df.drop_duplicates(inplace=True)
+#ANALYSIS
+total_sales = df['Total'].sum()
+total_sales
+
+average_order_value = df.groupby('Gender')['Total'].mean()
+average_order_value
+
+product_category_distribution = df['Product line'].value_counts()
+product_category_distribution
+
+df.columns
+#VISUALIZATION
+df.boxplot()
+
+plt.figure(figsize=(12, 6))
+plt.bar(df['Product line'], df['Total'], color='skyblue')
+plt.xlabel('Product Category')
+plt.ylabel('Total Sales Amount')
+plt.title('Total Sales by Product Category')
+plt.xticks(rotation=20)
+plt.show()
