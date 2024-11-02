@@ -1,0 +1,46 @@
+Data Wrangling
+Problem Statement: Data Wrangling on Real Estate Market The goal is to perform data wrangling to gain insights into the factors 
+influencing housing prices and prepare the dataset for further analysis or modeling.
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.preprocessing import LabelEncoder
+
+df = pd.read_csv(r"F:\BE\My Cl1\CL1\d4\Real-Estate dataset.csv")
+df.head()
+
+df.isna().sum()
+df.info()
+df.describe()
+df.boxplot()
+
+Q1 = df['price'].quantile(0.25)
+Q3 = df['price'].quantile(0.75)
+iqr = Q3 - Q1
+minm= Q1 - (1.5*iqr)
+maxm = Q3 + (1.5*iqr)
+df=df[(df['price']>minm) & (df['price']<maxm)]
+df.head()
+
+df.columns
+df.datatypes
+
+df.boxplot()
+plt.show()
+
+le = LabelEncoder()
+df['mainroad'] = le.fit_transform(df['mainroad'])
+df['guestroom'] = le.fit_transform(df['guestroom'])
+df['basement'] = le.fit_transform(df['basement'])
+df['hotwaterheating'] = le.fit_transform(df['hotwaterheating'])
+df['airconditioning'] = le.fit_transform(df['airconditioning'])
+df['furnishingstatus'] = le.fit_transform(df['furnishingstatus'])
+df['prefarea'] = le.fit_transform(df['prefarea'])
+df.head()
+
+plt.figure(figsize=(12, 8))
+sns.heatmap(data = df.corr(), cmap = "coolwarm", annot=True)
+plt.show()
+
