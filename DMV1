@@ -8,9 +8,9 @@ import seaborn as sns
 import numpy as np
 import os
 
-csv_data = pd.read_csv(r"F:\BE\My Cl1\CL1\d1\format1.csv")
-excel_data = pd.read_excel(r"F:\BE\My Cl1\CL1\d1\format2.xlsx")
-json_data = pd.read_json(r"F:\BE\My Cl1\CL1\d1\format3.json")
+csv_data = pd.read_csv(r"")
+excel_data = pd.read_excel(r"")
+json_data = pd.read_json(r"")
 csv_data.head(1)
 
 excel_data.head(1)
